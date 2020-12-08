@@ -1,4 +1,4 @@
-package game.basis;
+package basis;
 
 public class Position {
 

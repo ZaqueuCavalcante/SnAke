@@ -1,8 +1,8 @@
-package game.basis;
+package basis;
 
-import game.actors.nodes.BorderNode;
-import game.actors.nodes.FloorNode;
-import game.actors.nodes.Node;
+import actors.nodes.BorderNode;
+import actors.nodes.FloorNode;
+import actors.nodes.Node;
 
 public class MatrixGraph {
 

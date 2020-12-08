@@ -1,4 +1,4 @@
-package game.actors.foods;
+package actors.foods;
 
 public class Frog implements Food {
 }

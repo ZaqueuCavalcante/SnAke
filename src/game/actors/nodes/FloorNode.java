@@ -1,4 +1,4 @@
-package game.actors.nodes;
+package actors.nodes;
 
 public class FloorNode extends Node {
 }

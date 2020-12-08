@@ -21,10 +21,10 @@ void Snake::resetScore() {
     this->score = 0;
 }
 void Snake::increaseScore(Food food) {
-    this->score += food.getXp();  // Polimorfismo. Declarar método como virtual?
+    this->score += food.getXp();  // Polimorfismo. Declarar mï¿½todo como virtual?
 }
 void Snake::decreaseScore(Obstacle obstacle) {
-    this->score -= obstacle.getXPDamage();  // Polimorfismo. Declarar método como virtual?
+    this->score -= obstacle.getXPDamage();  // Polimorfismo. Declarar mï¿½todo como virtual?
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //

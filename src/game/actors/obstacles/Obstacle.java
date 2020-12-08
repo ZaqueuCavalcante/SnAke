@@ -1,4 +1,4 @@
-package game.actors.obstacles;
+package actors.obstacles;
 
 public interface Obstacle {
 }

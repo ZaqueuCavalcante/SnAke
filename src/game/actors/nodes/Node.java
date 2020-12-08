@@ -1,6 +1,6 @@
-package game.actors.nodes;
+package actors.nodes;
 
-import game.basis.Position;
+import basis.Position;
 
 public class Node {
 
@@ -12,9 +12,7 @@ public class Node {
 
     private Node[] neighbors;
 
-    public Node() {
-
-    }
+    public Node() {}
 
     public void pointToFront() {
         direction = 0;
