@@ -1,4 +1,9 @@
 package actors.obstacles;
 
-public class Rock implements Obstacle {
+public class Rock extends Obstacle {
+
+    public Rock(int row, int column) {
+        super(row, column);
+    }
+
 }

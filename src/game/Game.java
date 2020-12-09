@@ -1,11 +1,9 @@
-import graphics.GraphicsInterface;
+import graphics.MyJFrame;
 
 public class Game {
 
     public static void main(String[] args) {
-
-        GraphicsInterface gi = new GraphicsInterface();
-
+        new MyJFrame();
     }
 
 }

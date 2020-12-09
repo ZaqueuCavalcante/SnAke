@@ -1,30 +1,53 @@
 package actors.snakes;
 
+import java.util.List;
+
+import actors.foods.Food;
+import actors.obstacles.Obstacle;
+
 public class Snake {
-    
+
+    private Head head;
+    private List<BodyNode> body;
+
+    private int score = 0;
+
+    private boolean dead;
+
     public Snake() {}
 
-    void live() {}
-    void die() {}
-    //boolean isDead() {}
-    //boolean isNotDead() {}
+    void live() {
+        dead = false;
+    }
+    void die() {
+        dead = true;
+    }
+    
+    boolean isDead() {
+        return dead;
+    }
+    boolean isNotDead() {
+        return !dead;
+    }
 
-    void resetScore() {}
-    //void increaseScore(Food food) {}
-    //void decreaseScore(Obstacle obstacle) {}
+    public int score() {
+        return score;
+    }
 
-    //void eat(Food food) {}
+    void resetScore() {
+        score = 0;
+    }
+    
+    void eat(Food food) {
+        score += food.nutritionalValue();
+    }
+    void getHurt(Obstacle obstacle) {
+        score -= obstacle.damageValue();
+    }
+
     void addBodyNode() {}
     void move() {}
 
     //Node getNextNode() {}
-
-
-    //Head head;
-    //List<BodyNode> body;
-
-    boolean dead = false;
-
-    int score = 0;
 
 }

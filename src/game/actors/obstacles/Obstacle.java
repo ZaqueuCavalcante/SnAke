@@ -1,4 +1,15 @@
 package actors.obstacles;
 
-public interface Obstacle {
+import actors.nodes.Node;
+
+public class Obstacle extends Node {
+
+	public Obstacle(int row, int column) {
+		super(row, column);
+    }
+    
+    public int damageValue() {
+        return 1;
+    }
+
 }

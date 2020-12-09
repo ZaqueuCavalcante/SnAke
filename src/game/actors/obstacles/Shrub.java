@@ -1,4 +1,9 @@
 package actors.obstacles;
 
-public class Shrub implements Obstacle {
+public class Shrub extends Obstacle {
+
+    public Shrub(int row, int column) {
+        super(row, column);
+    }
+
 }

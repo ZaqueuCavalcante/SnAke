@@ -10,4 +10,12 @@ public class Position {
         this.column = column;
     }
 
+    public int row() {
+        return row;
+    }
+
+    public int column() {
+        return column;
+    }
+
 }
