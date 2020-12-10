@@ -25,15 +25,15 @@ public class Positioner {
         int randomIndex = (int) (Math.random() * freePositions.size());
         Position position = freePositions.get(randomIndex);
         food.moveTo(position.row(), position.column());
-        matrixGraph.insert(food, position.row(), position.column());
+        matrixGraph.insert(food);
     }
 
     public void put(Snake snake, MatrixGraph matrixGraph) {
         int row = (int) (matrixGraph.rows() / 2);
         int column = (int) (matrixGraph.columns() / 2);
         snake.moveHeadTo(row, column);
-        matrixGraph.insert(snake.head(), row, column);
-        matrixGraph.insert(snake.body().get(0), row + 1, column);
+        matrixGraph.insert(snake.head());
+        matrixGraph.insert(snake.body().get(0));
     }
     
 }

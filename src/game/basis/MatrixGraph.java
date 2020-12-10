@@ -24,6 +24,10 @@ public class MatrixGraph {
         nodes[row][column] = node;
     }
 
+    public void insert(Node node) {
+        nodes[node.row()][node.column()] = node;
+    }
+
     private void surround() {
         surroundRow(0);
         surroundRow(rows - 1);

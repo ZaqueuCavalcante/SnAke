@@ -56,13 +56,21 @@ public class Node {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    public int size() {
+    public static int size() {
         return size;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     public Color color() {
         return color;
+    }
+
+    public int nextRow() {
+        return (direction == 0) ? row-1 : row+1;
+    }
+
+    public int nextColumn() {
+        return (direction == 1) ? column+1 : column-1;
     }
 
 }

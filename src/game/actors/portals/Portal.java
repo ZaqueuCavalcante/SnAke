@@ -1,5 +1,7 @@
 package actors.portals;
 
-public class Portal {
+import actors.nodes.Node;
+
+public class Portal extends Node {
     
 }

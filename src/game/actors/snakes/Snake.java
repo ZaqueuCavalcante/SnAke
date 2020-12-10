@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import actors.foods.Food;
+import actors.nodes.BorderNode;
 import actors.obstacles.Obstacle;
+import actors.portals.Portal;
+import basis.MatrixGraph;
 
 public class Snake {
 
@@ -80,6 +83,33 @@ public class Snake {
         body.add(new BodyNode(row + 1, column));
     }
 
-    //Node getNextNode() {}
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+    private int nextRow() {
+        return head.nextRow();
+    }
+
+    private int nextColumn() {
+        return head.nextColumn();
+    }
+
+    public boolean foodCollide(MatrixGraph matrixGraph) {
+        return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof Food;
+    }
+    
+    public boolean selfCollide(MatrixGraph matrixGraph) {
+        return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof BodyNode;
+    }
+
+    public boolean wallCollide(MatrixGraph matrixGraph) {
+        return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof BorderNode;
+    }
+
+    public boolean obstacleCollide(MatrixGraph matrixGraph) {
+        return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof Obstacle;
+    }
+
+    public boolean portalCollide(MatrixGraph matrixGraph) {
+        return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof Portal;
+    }
 
 }
