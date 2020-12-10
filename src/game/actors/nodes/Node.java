@@ -5,7 +5,6 @@ import java.awt.Color;
 public class Node {
 
     private static final int size = 50;
-    private static final int borderRadius = 5;
 
     private int row;
     private int column;
@@ -15,24 +14,35 @@ public class Node {
 
     protected Color color;
 
+    public Node() {}
+
     public Node(int row, int column) {
         this.row = row;
         this.column = column;
     }
 
-    public void pointToFront() {
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+    public void pointToUp() {
         direction = 0;
     }
     public void pointToRight() {
         direction = 1;
     }
-    public void pointToBack() {
+    public void pointToDown() {
         direction = 2;
     }
     public void pointToLeft() {
         direction = 3;
     }
 
+    public void move() {
+        if (direction == 0) row--;
+        if (direction == 1) column++;
+        if (direction == 2) row++;
+        if (direction == 3) column--;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     public int row() {
         return row;
     }
@@ -40,35 +50,19 @@ public class Node {
         return column;
     }
 
+    public void moveTo(int row, int column) {
+        this.row = row;
+        this.column = column;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     public int size() {
         return size;
     }
 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     public Color color() {
         return color;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) Math.random() * 1000;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null)
-            return false;
-
-        if (obj.getClass() != this.getClass())
-            return false;
-        
-        final Node other = (Node) obj;
-        if (this.row != other.row)
-            return false;
-
-        if (this.column != other.column)
-            return false;
-        
-        return true;
     }
 
 }

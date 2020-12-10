@@ -20,12 +20,8 @@ public class MatrixGraph {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    private void insert(Node node, int row, int column) {
+    public void insert(Node node, int row, int column) {
         nodes[row][column] = node;
-    }
-
-    public void insert(Node node, Position position) {
-        insert(node, position.row(), position.column());;
     }
 
     private void surround() {

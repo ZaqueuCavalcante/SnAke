@@ -4,6 +4,8 @@ import actors.nodes.Node;
 
 public class Food extends Node {
 
+    public Food() {}
+
     public Food(int row, int column) {
         super(row, column);
     }

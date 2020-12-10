@@ -1,16 +1,16 @@
 package controllers;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import actors.foods.Apple;
 import actors.foods.Food;
+import actors.snakes.Snake;
 import basis.MatrixGraph;
 import basis.Position;
 
 public class Positioner {
 
-    private final Set<Position> freePositions = new HashSet<Position>();
+    private final List<Position> freePositions = new ArrayList<Position>();
     
     public Positioner() {}
 
@@ -22,8 +22,18 @@ public class Positioner {
                     freePositions.add(new Position(row, column));
             }
         }
-        Position p = freePositions.iterator().next();
-        matrixGraph.insert(new Apple(p.row(), p.column()), p);
+        int randomIndex = (int) (Math.random() * freePositions.size());
+        Position position = freePositions.get(randomIndex);
+        food.moveTo(position.row(), position.column());
+        matrixGraph.insert(food, position.row(), position.column());
+    }
+
+    public void put(Snake snake, MatrixGraph matrixGraph) {
+        int row = (int) (matrixGraph.rows() / 2);
+        int column = (int) (matrixGraph.columns() / 2);
+        snake.moveHeadTo(row, column);
+        matrixGraph.insert(snake.head(), row, column);
+        matrixGraph.insert(snake.body().get(0), row + 1, column);
     }
     
 }

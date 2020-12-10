@@ -15,8 +15,10 @@ import java.util.Random;
 import java.awt.FontMetrics;
 
 import actors.foods.Apple;
-import actors.foods.Food;
+import actors.foods.Frog;
+import actors.foods.Mouse;
 import actors.nodes.Node;
+import actors.snakes.BodyNode;
 import actors.snakes.Snake;
 import basis.MatrixGraph;
 import controllers.Positioner;
@@ -51,7 +53,7 @@ public class MyJPanel extends JPanel implements ActionListener {
     public MyJPanel() {
         random = new Random();
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        setBackground(Color.BLACK);
+        // setBackground(Color.WHITE);
         setFocusable(true);
         addKeyListener(new MyKeyAdapter());
         startGame();
@@ -68,7 +70,8 @@ public class MyJPanel extends JPanel implements ActionListener {
     }
 
     MatrixGraph mg = new MatrixGraph(16, 24);
-    //MatrixGraph mg = new MatrixGraph(5, 5);
+    Snake snake = new Snake();
+    // MatrixGraph mg = new MatrixGraph(5, 5);
 
     public void startGame() {
         newApple();
@@ -76,11 +79,16 @@ public class MyJPanel extends JPanel implements ActionListener {
         timer = new Timer(DELAY, this);
         timer.start();
         Positioner positioner = new Positioner();
-        positioner.put(new Apple(0, 0), mg);
+        positioner.put(snake, mg);
+        positioner.put(new Apple(), mg);
+        positioner.put(new Frog(), mg);
+        positioner.put(new Mouse(), mg);
     }
 
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
+
+        snake.move();
 
         show(mg, graphics);
         //showApple(graphics);
@@ -97,9 +105,6 @@ public class MyJPanel extends JPanel implements ActionListener {
         int x = node.column() * nodeSize;
         int y = node.row() * nodeSize;
         graphics.fillRect(x, y, nodeSize, nodeSize);
-    }
-
-    public void show(Snake snake) {
     }
 
     public void show(MatrixGraph matrixGraph, Graphics graphics) {
@@ -211,23 +216,19 @@ public class MyJPanel extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                    if (direction != 'R')
-                        direction = 'L';
+                    snake.head().pointToLeft();
                     break;
 
                 case KeyEvent.VK_RIGHT:
-                    if (direction != 'L')
-                        direction = 'R';
+                    snake.head().pointToRight();
                     break;
 
                 case KeyEvent.VK_UP:
-                    if (direction != 'D')
-                        direction = 'U';
+                    snake.head().pointToUp();
                     break;
 
                 case KeyEvent.VK_DOWN:
-                    if (direction != 'U')
-                        direction = 'D';
+                    snake.head().pointToDown();
                     break;
             }
         }

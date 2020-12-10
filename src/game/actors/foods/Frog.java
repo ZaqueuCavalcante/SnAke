@@ -4,6 +4,10 @@ import java.awt.Color;
 
 public class Frog extends Food {
 
+    public Frog() {
+        color = Color.BLUE;
+    }
+
     public Frog(int row, int column) {
         super(row, column);
         color = Color.BLUE;

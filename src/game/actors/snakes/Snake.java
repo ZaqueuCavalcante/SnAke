@@ -1,5 +1,6 @@
 package actors.snakes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import actors.foods.Food;
@@ -10,12 +11,17 @@ public class Snake {
     private Head head;
     private List<BodyNode> body;
 
-    private int score = 0;
+    private int score;
 
     private boolean dead;
 
-    public Snake() {}
+    public Snake() {
+        head = new Head();
+        head.pointToUp();
+        body = new ArrayList<>();
+    }
 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     void live() {
         dead = false;
     }
@@ -30,6 +36,7 @@ public class Snake {
         return !dead;
     }
 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     public int score() {
         return score;
     }
@@ -38,6 +45,7 @@ public class Snake {
         score = 0;
     }
     
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     void eat(Food food) {
         score += food.nutritionalValue();
     }
@@ -45,8 +53,32 @@ public class Snake {
         score -= obstacle.damageValue();
     }
 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+    public Head head() {
+        return head;
+    }
+
+    public List<BodyNode> body() {
+        return body;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     void addBodyNode() {}
-    void move() {}
+
+    public void move() {
+        int headRow = head.row();
+        int headColumn = head.column();
+        head.move();
+        BodyNode lastBodyNode = body.get(body.size() - 1);
+        lastBodyNode.moveTo(headRow, headColumn);
+        body.set(body.size() - 1, body.get(0));
+        body.set(0, lastBodyNode);
+    }
+
+    public void moveHeadTo(int row, int column) {
+        head.moveTo(row, column);
+        body.add(new BodyNode(row + 1, column));
+    }
 
     //Node getNextNode() {}
 
