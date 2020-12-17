@@ -9,6 +9,7 @@ import basis.MatrixGraph;
 public class Mover {
 
     public void move(Snake snake, MatrixGraph matrixGraph) {
+        int pivo = snake.head().direction();
         Head snakeHead = snake.head();
         int headRow = snakeHead.row();
         int headColumn = snakeHead.column();

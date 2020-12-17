@@ -10,10 +10,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.Polygon;
 
 import actors.foods.Apple;
+import actors.foods.Food;
 import actors.foods.Frog;
 import actors.foods.Mouse;
+import actors.nodes.BorderNode;
 import actors.nodes.Node;
 import actors.snakes.Snake;
 import basis.MatrixGraph;
@@ -27,12 +30,12 @@ public class MyJPanel extends JPanel implements ActionListener {
     static final int WIDTH = 1200;
     static final int HEIGHT = 800;
 
-    static final int DELAY = 1000;
+    static final int DELAY = 200;
 
-    boolean running = false;
     Timer timer;
 
-    MatrixGraph mg = new MatrixGraph(16, 24);
+    MatrixGraph matrixGraph = new MatrixGraph(16, 24);
+    Positioner positioner = new Positioner();
     Snake snake = new Snake();
 
     Mover mover = new Mover();
@@ -50,21 +53,35 @@ public class MyJPanel extends JPanel implements ActionListener {
     }
 
     public void startGame() {
-        running = true;
         timer = new Timer(DELAY, this);
         timer.start();
-        Positioner positioner = new Positioner();
-        positioner.put(snake, mg);
-        positioner.put(new Apple(), mg);
-        positioner.put(new Frog(), mg);
-        positioner.put(new Mouse(), mg);
+        
+        positioner.put(snake, matrixGraph);
+        positioner.put(new Apple(), matrixGraph);
+        // positioner.put(new Frog(), matrixGraph);
+        // positioner.put(new Mouse(), matrixGraph);
     }
 
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        mover.move(snake, mg);
-        show(mg, graphics);
-        showGrid(mg, graphics);
+        
+        if (snake.foodCollide(matrixGraph)) {
+            Food food = (Food) matrixGraph.nodeAt(snake.head().nextRow(), snake.head().nextColumn());
+            snake.eat(food);
+            positioner.put(new Apple(), matrixGraph);
+        }
+        if (snake.wallCollide(matrixGraph)) {
+            snake.die();
+            timer.stop();
+            System.out.println("YOU LOST");
+        }
+
+        snake.updateDirections();
+
+        matrixGraph.shake();
+        
+        show(matrixGraph, graphics);
+        showGrid(matrixGraph, graphics);
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //

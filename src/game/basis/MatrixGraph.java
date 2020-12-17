@@ -18,16 +18,17 @@ public class MatrixGraph {
         surround();
         fillInside();
     }
-
+    
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     public void insert(Node node, int row, int column) {
         nodes[row][column] = node;
     }
-
+    
     public void insert(Node node) {
         nodes[node.row()][node.column()] = node;
     }
-
+    
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     private void surround() {
         surroundRow(0);
         surroundRow(rows - 1);
@@ -47,7 +48,6 @@ public class MatrixGraph {
         }
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     private void fillInside() {
         for (int row = 1; row < rows - 1; row++) {
             for (int column = 1; column < columns - 1; column++) {
@@ -72,6 +72,14 @@ public class MatrixGraph {
 
     public boolean containsAFloorNodeAt(int row, int column) {
         return nodeAt(row, column) instanceof FloorNode;
+    }
+
+    public void shake() {
+        for (int row = 1; row < rows - 1; row++) {
+            for (int column = 1; column < columns - 1; column++) {
+                insert(nodeAt(row, column).move());
+            }
+        }
     }
 
 }

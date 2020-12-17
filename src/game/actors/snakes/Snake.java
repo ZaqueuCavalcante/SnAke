@@ -25,17 +25,17 @@ public class Snake {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    void live() {
+    public void live() {
         dead = false;
     }
-    void die() {
+    public void die() {
         dead = true;
     }
     
-    boolean isDead() {
+    public boolean isDead() {
         return dead;
     }
-    boolean isNotDead() {
+    public boolean isNotDead() {
         return !dead;
     }
 
@@ -49,11 +49,15 @@ public class Snake {
     }
     
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    void eat(Food food) {
+    public void eat(Food food) {
         score += food.nutritionalValue();
+        for (int i = 0; i < food.nutritionalValue(); i++) {
+            addBodyNode();
+        }
     }
-    void getHurt(Obstacle obstacle) {
+    public void getHurt(Obstacle obstacle) {
         score -= obstacle.damageValue();
+        if (score < 0) dead = true;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -66,16 +70,16 @@ public class Snake {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    void addBodyNode() {}
+    void addBodyNode() {
+        body.add(new BodyNode(head.row(), head.column()));
+    }
 
-    public void move() {
-        int headRow = head.row();
-        int headColumn = head.column();
-        head.move();
-        BodyNode lastBodyNode = body.get(body.size() - 1);
-        lastBodyNode.moveTo(headRow, headColumn);
-        body.set(body.size() - 1, body.get(0));
-        body.set(0, lastBodyNode);
+    public void updateDirections() {
+        short pivo = head.direction();
+        for (BodyNode bn : body) {
+            bn.pointTo(pivo);
+            pivo = bn.direction();
+        }
     }
 
     public void moveHeadTo(int row, int column) {

@@ -22,24 +22,38 @@ public class Node {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    public void pointToUp() {
+    public short direction() {
+        return direction;
+    }
+    public void pointToNothing() {
         direction = 0;
     }
-    public void pointToRight() {
+    public void pointToUp() {
         direction = 1;
     }
-    public void pointToDown() {
+    public void pointToRight() {
         direction = 2;
     }
-    public void pointToLeft() {
+    public void pointToDown() {
         direction = 3;
     }
+    public void pointToLeft() {
+        direction = 4;
+    }
 
-    public void move() {
-        if (direction == 0) row--;
-        if (direction == 1) column++;
-        if (direction == 2) row++;
-        if (direction == 3) column--;
+    public void pointTo(short direction) {
+        if (direction < 0 || direction > 4) {
+            throw new IllegalArgumentException("Direção inválida.");
+        }
+        this.direction = direction;
+    }
+
+    public Node move() {
+        if (direction == 1) row--;
+        if (direction == 2) column++;
+        if (direction == 3) row++;
+        if (direction == 4) column--;
+        return this;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -66,11 +80,15 @@ public class Node {
     }
 
     public int nextRow() {
-        return (direction == 0) ? row-1 : row+1;
+        if (direction == 1) return row-1;
+        if (direction == 3) return row+1;
+        return row;
     }
 
     public int nextColumn() {
-        return (direction == 1) ? column+1 : column-1;
+        if (direction == 2) return column+1;
+        if (direction == 4) return column-1;
+        return column;
     }
 
 }
