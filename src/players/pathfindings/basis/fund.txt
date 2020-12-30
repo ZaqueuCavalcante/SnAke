@@ -1,4 +1,0 @@
-Node custom
-Graph
-Função de custo
-Heurística
