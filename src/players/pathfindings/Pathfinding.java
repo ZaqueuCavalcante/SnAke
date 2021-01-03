@@ -1,5 +1,7 @@
 package players.pathfindings;
 
-public interface Pathfinding {
+import players.Player;
+
+public interface Pathfinding extends Player {
     
 }

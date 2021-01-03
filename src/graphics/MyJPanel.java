@@ -17,7 +17,6 @@ import actors.nodes.Node;
 import actors.snakes.Snake;
 import basis.MatrixGraph;
 import controllers.Mover;
-import controllers.Positioner;
 
 public class MyJPanel extends JPanel implements ActionListener {
 
@@ -26,12 +25,12 @@ public class MyJPanel extends JPanel implements ActionListener {
     static final int WIDTH = 1200;
     static final int HEIGHT = 800;
 
-    static final int DELAY = 200;
+    static final int DELAY = 20;
 
     Timer timer;
 
     MatrixGraph matrixGraph = new MatrixGraph(16, 24);
-    Positioner positioner = new Positioner();
+
     Snake snake = new Snake();
 
     Mover mover = new Mover();
@@ -52,8 +51,8 @@ public class MyJPanel extends JPanel implements ActionListener {
         timer = new Timer(DELAY, this);
         timer.start();
         
-        positioner.put(snake, matrixGraph);
-        positioner.put(new Apple(), matrixGraph);
+        matrixGraph.put(snake);
+        matrixGraph.put(new Apple());
     }
 
     @Override
@@ -63,7 +62,7 @@ public class MyJPanel extends JPanel implements ActionListener {
         if (snake.foodCollide(matrixGraph)) {
             Food food = (Food) matrixGraph.nodeAt(snake.head().nextRow(), snake.head().nextColumn());
             snake.eat(food);
-            positioner.put(new Apple(), matrixGraph);
+            matrixGraph.put(new Apple());
         }
         if (snake.wallCollide(matrixGraph)) {
             snake.die();
@@ -71,9 +70,9 @@ public class MyJPanel extends JPanel implements ActionListener {
             System.err.println("YOU LOST");
         }
 
-        snake.updateDirections();
+        // snake.updateDirections();
 
-        matrixGraph.shake();
+        // matrixGraph.shake();
         
         show(matrixGraph, graphics);
         showGrid(matrixGraph, graphics);
@@ -82,10 +81,9 @@ public class MyJPanel extends JPanel implements ActionListener {
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     public void show(Node node, Graphics graphics) {
         graphics.setColor(node.color());
-        int nodeSize = Node.size();
-        int x = node.column() * nodeSize;
-        int y = node.row() * nodeSize;
-        graphics.fillRect(x, y, nodeSize, nodeSize);
+        int x = node.column() * Node.SIZE;
+        int y = node.row() * Node.SIZE;
+        graphics.fillRect(x, y, Node.SIZE, Node.SIZE);
     }
 
     public void show(MatrixGraph matrixGraph, Graphics graphics) {
@@ -99,9 +97,9 @@ public class MyJPanel extends JPanel implements ActionListener {
     public void showGrid(MatrixGraph matrixGraph, Graphics graphics) {
         graphics.setColor(Color.WHITE);
         for (int i = 0; i < matrixGraph.columns(); i++)
-            graphics.drawLine(i * Node.size(), 0, i * Node.size(), WIDTH);
+            graphics.drawLine(i * Node.SIZE, 0, i * Node.SIZE, WIDTH);
         for (int i = 0; i < matrixGraph.rows(); i++)
-            graphics.drawLine(0, i * Node.size(), WIDTH, i * Node.size());
+            graphics.drawLine(0, i * Node.SIZE, WIDTH, i * Node.SIZE);
     }
 
     // public void showScore(Graphics graphics) {

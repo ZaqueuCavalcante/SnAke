@@ -6,6 +6,9 @@ public class Position {
     private int column;
 
     public Position(int row, int column) {
+        if (row < 0 || column < 0) {
+            throw new IllegalArgumentException("Row and column must be positive values.");
+        }
         this.row = row;
         this.column = column;
     }

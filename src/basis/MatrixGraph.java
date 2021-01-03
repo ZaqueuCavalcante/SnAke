@@ -1,8 +1,13 @@
 package basis;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import actors.foods.Food;
 import actors.nodes.BorderNode;
 import actors.nodes.FloorNode;
 import actors.nodes.Node;
+import actors.snakes.Snake;
 
 public class MatrixGraph {
 
@@ -10,6 +15,8 @@ public class MatrixGraph {
     private int columns;
 
     private Node[][] nodes;
+
+    private List<Position> freePositions = new ArrayList<>();
 
     public MatrixGraph(int rows, int columns) {
         this.rows = rows;
@@ -70,16 +77,39 @@ public class MatrixGraph {
         return nodes[row][column];
     }
 
-    public boolean containsAFloorNodeAt(int row, int column) {
-        return nodeAt(row, column) instanceof FloorNode;
-    }
-
     public void shake() {
         for (int row = 1; row < rows - 1; row++) {
             for (int column = 1; column < columns - 1; column++) {
                 insert(nodeAt(row, column).move());
             }
         }
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+    private Position getRandomFreePosition() {
+        freePositions.clear();
+        for (int row = 1; row < rows -1 ; row++) {
+            for (int column = 1; column < columns - 1; column++) {
+                if (nodeAt(row, column) instanceof FloorNode)
+                    freePositions.add(new Position(row, column));
+            }
+        }
+        int randomIndex = (int) (Math.random() * freePositions.size());
+        return freePositions.get(randomIndex);
+    }
+
+    public void put(Food food) {
+        Position position = getRandomFreePosition();
+        food.moveTo(position.row(), position.column());
+        this.insert(food);
+    }
+
+    public void put(Snake snake) {
+        int row = rows / 2;
+        int column = columns / 2;
+        snake.moveHeadTo(row, column);
+        this.insert(snake.head());
+        this.insert(snake.body().get(0));
     }
 
 }

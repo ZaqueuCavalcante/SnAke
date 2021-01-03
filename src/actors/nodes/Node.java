@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Node {
 
-    private static final int SIZE = 50;
+    public static final int SIZE = 50;
 
     private int row;
     private int column;
@@ -43,7 +43,7 @@ public class Node {
 
     public void pointTo(short direction) {
         if (direction < 0 || direction > 4) {
-            throw new IllegalArgumentException("Direção inválida.");
+            throw new IllegalArgumentException("Invalid direction.");
         }
         this.direction = direction;
     }
@@ -67,11 +67,6 @@ public class Node {
     public void moveTo(int row, int column) {
         this.row = row;
         this.column = column;
-    }
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    public static int size() {
-        return SIZE;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
