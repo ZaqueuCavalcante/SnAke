@@ -20,7 +20,7 @@ public class Mover {
 
         matrixGraph.insert(new FloorNode(lastBodyNode.row(), lastBodyNode.column()));
 
-        lastBodyNode.moveTo(headRow, headColumn);
+        //lastBodyNode.moveTo(headRow, headColumn);
         matrixGraph.insert(lastBodyNode);
         snake.body().set(snake.body().size() - 1, snake.body().get(0));
         snake.body().set(0, lastBodyNode);

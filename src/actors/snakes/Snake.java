@@ -5,6 +5,7 @@ import java.util.List;
 
 import actors.foods.Food;
 import actors.nodes.BorderNode;
+import actors.nodes.Node;
 import actors.obstacles.Obstacle;
 import actors.portals.Portal;
 import basis.MatrixGraph;
@@ -75,10 +76,10 @@ public class Snake {
     }
 
     public void updateDirections() {
-        short pivo = head.direction();
+        Node pivo = head;
         for (BodyNode bn : body) {
             bn.pointTo(pivo);
-            pivo = bn.direction();
+            pivo = bn;
         }
     }
 
@@ -88,32 +89,32 @@ public class Snake {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    private int nextRow() {
-        return head.nextRow();
-    }
+    // private int nextRow() {
+    //     return head.nextRow();
+    // }
 
-    private int nextColumn() {
-        return head.nextColumn();
-    }
+    // private int nextColumn() {
+    //     return head.nextColumn();
+    // }
 
-    public boolean foodCollide(MatrixGraph matrixGraph) {
-        return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof Food;
-    }
+    // public boolean foodCollide(MatrixGraph matrixGraph) {
+    //     return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof Food;
+    // }
     
-    public boolean selfCollide(MatrixGraph matrixGraph) {
-        return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof BodyNode;
-    }
+    // public boolean selfCollide(MatrixGraph matrixGraph) {
+    //     return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof BodyNode;
+    // }
 
-    public boolean wallCollide(MatrixGraph matrixGraph) {
-        return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof BorderNode;
-    }
+    // public boolean wallCollide(MatrixGraph matrixGraph) {
+    //     return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof BorderNode;
+    // }
 
-    public boolean obstacleCollide(MatrixGraph matrixGraph) {
-        return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof Obstacle;
-    }
+    // public boolean obstacleCollide(MatrixGraph matrixGraph) {
+    //     return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof Obstacle;
+    // }
 
-    public boolean portalCollide(MatrixGraph matrixGraph) {
-        return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof Portal;
-    }
+    // public boolean portalCollide(MatrixGraph matrixGraph) {
+    //     return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof Portal;
+    // }
 
 }

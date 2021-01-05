@@ -7,6 +7,7 @@ import actors.foods.Food;
 import actors.nodes.BorderNode;
 import actors.nodes.FloorNode;
 import actors.nodes.Node;
+import actors.snakes.BodyNode;
 import actors.snakes.Snake;
 
 public class MatrixGraph {
@@ -27,12 +28,13 @@ public class MatrixGraph {
     }
     
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    public void insert(Node node, int row, int column) {
-        nodes[row][column] = node;
-    }
-    
     public void insert(Node node) {
         nodes[node.row()][node.column()] = node;
+    }
+
+    public void insert(List<BodyNode> nodes) {
+        for (BodyNode node : nodes)
+            insert(node);
     }
     
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -45,20 +47,20 @@ public class MatrixGraph {
 
     private void surroundRow(int row) {
         for (int column = 0; column < columns; column++) {
-            insert(new BorderNode(row, column), row, column);
+            insert(new BorderNode(row, column));
         }
     }
 
     private void surroundColumn(int column) {
         for (int row = 1; row < rows; row++) {
-            insert(new BorderNode(row, column), row, column);
+            insert(new BorderNode(row, column));
         }
     }
 
     private void fillInside() {
         for (int row = 1; row < rows - 1; row++) {
             for (int column = 1; column < columns - 1; column++) {
-                insert(new FloorNode(row, column), row, column);
+                insert(new FloorNode(row, column));
             }
         }
     }
@@ -101,15 +103,13 @@ public class MatrixGraph {
     public void put(Food food) {
         Position position = getRandomFreePosition();
         food.moveTo(position.row(), position.column());
-        this.insert(food);
+        insert(food);
     }
 
     public void put(Snake snake) {
-        int row = rows / 2;
-        int column = columns / 2;
-        snake.moveHeadTo(row, column);
-        this.insert(snake.head());
-        this.insert(snake.body().get(0));
+        snake.moveHeadTo(rows/2, columns/2);
+        insert(snake.head());
+        insert(snake.body());
     }
 
 }

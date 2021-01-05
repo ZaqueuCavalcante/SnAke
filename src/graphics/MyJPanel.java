@@ -25,7 +25,7 @@ public class MyJPanel extends JPanel implements ActionListener {
     static final int WIDTH = 1200;
     static final int HEIGHT = 800;
 
-    static final int DELAY = 20;
+    static final int DELAY = 2000;
 
     Timer timer;
 
@@ -59,20 +59,20 @@ public class MyJPanel extends JPanel implements ActionListener {
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         
-        if (snake.foodCollide(matrixGraph)) {
-            Food food = (Food) matrixGraph.nodeAt(snake.head().nextRow(), snake.head().nextColumn());
-            snake.eat(food);
-            matrixGraph.put(new Apple());
-        }
-        if (snake.wallCollide(matrixGraph)) {
-            snake.die();
-            timer.stop();
-            System.err.println("YOU LOST");
-        }
+        // if (snake.foodCollide(matrixGraph)) {
+        //     Food food = (Food) matrixGraph.nodeAt(snake.head().nextRow(), snake.head().nextColumn());
+        //     snake.eat(food);
+        //     matrixGraph.put(new Apple());
+        // }
+        // if (snake.wallCollide(matrixGraph)) {
+        //     snake.die();
+        //     timer.stop();
+        //     System.err.println("YOU LOST");
+        // }
 
-        // snake.updateDirections();
+        snake.updateDirections();
 
-        // matrixGraph.shake();
+        matrixGraph.shake();
         
         show(matrixGraph, graphics);
         showGrid(matrixGraph, graphics);
@@ -84,6 +84,10 @@ public class MyJPanel extends JPanel implements ActionListener {
         int x = node.column() * Node.SIZE;
         int y = node.row() * Node.SIZE;
         graphics.fillRect(x, y, Node.SIZE, Node.SIZE);
+        graphics.setColor(Color.BLACK);
+        x += Node.SIZE/2; y += Node.SIZE/2;
+        if (node.isNotParked())
+            graphics.drawLine(x, y, (int)(x+node.xProj()), (int)(y+node.yProj()));
     }
 
     public void show(MatrixGraph matrixGraph, Graphics graphics) {
