@@ -1,6 +1,7 @@
 package actors.foods;
 
 import actors.nodes.Node;
+import basis.Position;
 
 public class Food extends Node {
 
@@ -12,6 +13,11 @@ public class Food extends Node {
 
     public int nutritionalValue() {
         return 1;
+    }
+
+    public void moveTo(Position position) {
+        this.row = position.row();
+        this.column = position.column();
     }
 
 }

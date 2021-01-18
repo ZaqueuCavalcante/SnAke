@@ -13,5 +13,10 @@ public class BodyNode extends Node {
         super(row, column);
         color = Color.GREEN;
     }
+
+    public void moveTo(int row, int column) {
+        this.row = row;
+        this.column = column;
+    }
     
 }

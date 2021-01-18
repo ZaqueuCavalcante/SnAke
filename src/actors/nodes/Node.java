@@ -6,9 +6,9 @@ public class Node {
 
     public static final int SIZE = 50;
 
-    private int row;
-    private int column;
-    private double direction = -1;
+    protected int row;
+    protected int column;
+    protected double angle = -1;
 
     // private Node[] neighbors;
 
@@ -23,33 +23,36 @@ public class Node {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     public void park() {
-        direction = -1;
+        angle = -1;
     }
     public boolean isNotParked() {
-        return direction >= 0.0;
+        return angle >= 0.0;
     }
 
     public void pointToRight() {
-        direction = 0.0;
+        angle = 0.0;
     }
     public void pointToDown() {
-        direction = Math.PI/2.0;
+        angle = Math.PI/2.0;
     }
     public void pointToLeft() {
-        direction = Math.PI;
+        angle = Math.PI;
     }
     public void pointToUp() {
-        direction = 1.5*Math.PI;
+        angle = 1.5*Math.PI;
     }
 
-    public void pointTo(Node otherNode) {
+    public void pointTo(Node otherNode) {  // Mover pra Body Node?
+        if (isNotNeighbor(otherNode)) {
+            throw new IllegalArgumentException("The nodes are not neighbors.");
+        }
         if (otherNode.row() == this.row) {
             if (otherNode.column() == this.column + 1)
                 pointToRight();
             else
                 pointToLeft();
         }
-        if (otherNode.column() == this.column) {
+        else {
             if (otherNode.row() == this.row + 1)
                 pointToDown();
             else
@@ -57,24 +60,21 @@ public class Node {
         }
     }
 
+    private boolean isNotNeighbor(Node otherNode) {
+        return ( Math.abs(otherNode.row()-this.row) + Math.abs(otherNode.column()-this.column) ) > 1.0;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     public Node move() {
-        if (direction == 0.0) column++;
-        if (direction == Math.PI/2.0) row++;
-        if (direction == Math.PI) column--;
-        if (direction == 1.5*Math.PI) row--;
+        if (angle == 0.0) column++;
+        if (angle == Math.PI/2.0) row++;
+        if (angle == Math.PI) column--;
+        if (angle == 1.5*Math.PI) row--;
         return this;
     }
 
-    public void moveTo(int row, int column) {
-        this.row = row;
-        this.column = column;
-    }
-
-    public double xProj() {
-        return Math.cos(direction)*SIZE/2.0;
-    }
-    public double yProj() {
-        return Math.sin(direction)*SIZE/2.0;
+    public double angle() {
+        return angle;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -89,17 +89,5 @@ public class Node {
     public int column() {
         return column;
     }
-
-    // public int nextRow() {
-    //     if (direction == 1) return row-1;
-    //     if (direction == 3) return row+1;
-    //     return row;
-    // }
-
-    // public int nextColumn() {
-    //     if (direction == 2) return column+1;
-    //     if (direction == 4) return column-1;
-    //     return column;
-    // }
 
 }

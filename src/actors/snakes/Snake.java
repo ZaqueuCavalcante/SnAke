@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import actors.foods.Food;
-import actors.nodes.BorderNode;
-import actors.nodes.Node;
 import actors.obstacles.Obstacle;
-import actors.portals.Portal;
-import basis.MatrixGraph;
 
 public class Snake {
 
@@ -23,6 +19,7 @@ public class Snake {
         head = new Head();
         head.pointToUp();
         body = new ArrayList<>();
+        body.add(new BodyNode());
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -56,6 +53,7 @@ public class Snake {
             addBodyNode();
         }
     }
+
     public void getHurt(Obstacle obstacle) {
         score -= obstacle.damageValue();
         if (score < 0) dead = true;
@@ -72,34 +70,24 @@ public class Snake {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     void addBodyNode() {
-        body.add(new BodyNode(head.row(), head.column()));
+        int index = body.size()-1;
+        body.add(new BodyNode(body.get(index).row(), body.get(index).column()));
     }
 
-    public void updateDirections() {
-        Node pivo = head;
-        for (BodyNode bn : body) {
-            bn.pointTo(pivo);
-            pivo = bn;
-        }
-    }
+    // public void updateDirections() {
+    //     Node pivo = head;
+    //     for (BodyNode bn : body) {
+    //         bn.pointTo(pivo);
+    //         pivo = bn;
+    //     }
+    // }
 
-    public void moveHeadTo(int row, int column) {
-        head.moveTo(row, column);
-        body.add(new BodyNode(row + 1, column));
-    }
+    // public void moveHeadTo(int row, int column) {
+    //     head.moveTo(row, column);
+    //     body.add(new BodyNode(row + 1, column));
+    // }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    // private int nextRow() {
-    //     return head.nextRow();
-    // }
-
-    // private int nextColumn() {
-    //     return head.nextColumn();
-    // }
-
-    // public boolean foodCollide(MatrixGraph matrixGraph) {
-    //     return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof Food;
-    // }
     
     // public boolean selfCollide(MatrixGraph matrixGraph) {
     //     return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof BodyNode;

@@ -44,6 +44,13 @@ Snake game with pathfinding algorithms.
         - A comida, um obstáculo e um portal são extensões de um Node, com alguns atributos e métodos a mais;
 - Alternativamente, poderíamos criar um único grafo e fazer cenário, cobra, comida, obstáculo e portal armazenarem apenas referências (ponteiros) para os nós do grafo;
 
+## Fluxo de Execução
+
+1 - Posicionar todos os nós
+2 - Atualizar vetores velocidade
+    - GIF dessa cena: https://www.youtube.com/watch?v=SrPCh9qbNr0
+3 - Mover geral
+
 **Adição de features**:
 - Fazer uma cobra competir com outra pela mesma comida, num mesmo jogo;
 - Colocar obstáculos dentro do cenário, formando uma espécie de labirinto;

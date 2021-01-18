@@ -7,38 +7,36 @@ import actors.foods.Food;
 import actors.nodes.BorderNode;
 import actors.nodes.FloorNode;
 import actors.nodes.Node;
-import actors.snakes.BodyNode;
+import actors.snakes.Head;
 import actors.snakes.Snake;
 
 public class MatrixGraph {
 
-    private int rows;
-    private int columns;
+    private final int rows;
+    private final int columns;
+    public static final int layers = 3;
 
-    private Node[][] nodes;
+    private Node[][][] nodes;
 
     private List<Position> freePositions = new ArrayList<>();
 
     public MatrixGraph(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
-        nodes = new Node[rows][columns];
-        surround();
-        fillInside();
+        nodes = new Node[rows][columns][layers];
     }
     
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    public void insert(Node node) {
-        nodes[node.row()][node.column()] = node;
+    public void insert(Node node, int layer) {
+        nodes[node.row()][node.column()][layer] = node;
     }
 
-    public void insert(List<BodyNode> nodes) {
-        for (BodyNode node : nodes)
-            insert(node);
+    public void remove(Node node, int layer) {
+        nodes[node.row()][node.column()][layer] = null;
     }
     
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    private void surround() {
+    public void surround() {
         surroundRow(0);
         surroundRow(rows - 1);
         surroundColumn(0);
@@ -47,20 +45,20 @@ public class MatrixGraph {
 
     private void surroundRow(int row) {
         for (int column = 0; column < columns; column++) {
-            insert(new BorderNode(row, column));
+            insert(new BorderNode(row, column), 0);
         }
     }
 
     private void surroundColumn(int column) {
-        for (int row = 1; row < rows; row++) {
-            insert(new BorderNode(row, column));
+        for (int row = 1; row < rows-1; row++) {
+            insert(new BorderNode(row, column), 0);
         }
     }
 
-    private void fillInside() {
-        for (int row = 1; row < rows - 1; row++) {
-            for (int column = 1; column < columns - 1; column++) {
-                insert(new FloorNode(row, column));
+    public void fillInside() {
+        for (int row = 1; row < rows-1; row++) {
+            for (int column = 1; column < columns-1; column++) {
+                insert(new FloorNode(row, column), 0);
             }
         }
     }
@@ -75,24 +73,24 @@ public class MatrixGraph {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    public Node nodeAt(int row, int column) {
-        return nodes[row][column];
+    public Node nodeAt(int row, int column, int layer) {
+        return nodes[row][column][layer];
     }
 
-    public void shake() {
-        for (int row = 1; row < rows - 1; row++) {
-            for (int column = 1; column < columns - 1; column++) {
-                insert(nodeAt(row, column).move());
-            }
-        }
-    }
+    // public void shake() {
+    //     for (int row = 1; row < rows - 1; row++) {
+    //         for (int column = 1; column < columns - 1; column++) {
+    //             insert(nodeAt(row, column, 0).move(), 0);
+    //         }
+    //     }
+    // }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     private Position getRandomFreePosition() {
         freePositions.clear();
         for (int row = 1; row < rows -1 ; row++) {
             for (int column = 1; column < columns - 1; column++) {
-                if (nodeAt(row, column) instanceof FloorNode)
+                if (nodeAt(row, column, 1) == null && nodeAt(row, column, 2) == null)
                     freePositions.add(new Position(row, column));
             }
         }
@@ -101,15 +99,16 @@ public class MatrixGraph {
     }
 
     public void put(Food food) {
-        Position position = getRandomFreePosition();
-        food.moveTo(position.row(), position.column());
-        insert(food);
+        food.moveTo(getRandomFreePosition());
+        insert(food, 1);
     }
 
     public void put(Snake snake) {
-        snake.moveHeadTo(rows/2, columns/2);
-        insert(snake.head());
-        insert(snake.body());
+        snake.head().moveTo(rows/2, columns/2);
+        insert(snake.head(), 2);
+        snake.body().get(0).moveTo(snake.head().row()+1, snake.head().column());
+        insert(snake.body().get(0), 2);
+        snake.body().get(0).pointTo(snake.head());
     }
 
 }
