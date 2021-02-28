@@ -10,7 +10,7 @@ public class Node {
     protected int column;
     protected double angle = -1;
 
-    // private Node[] neighbors;
+    private Node[] neighbors;
 
     protected Color color;
 
@@ -19,6 +19,7 @@ public class Node {
     public Node(int row, int column) {
         this.row = row;
         this.column = column;
+        neighbors = new Node[4];
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //

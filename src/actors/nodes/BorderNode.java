@@ -13,4 +13,6 @@ public class BorderNode extends Node {
         color = Color.GRAY;
     }
 
+    public int number;
+
 }

@@ -20,12 +20,12 @@ public class Head extends Node {
         this.column = column;
     }
 
-    // public int nextRow() {
-    //     return this.row + (int) Math.sin(this.angle);
-    // }
+    public int nextRow() {
+        return this.row + (int) Math.sin(this.angle);
+    }
 
-    // public int nextColumn() {
-    //     return this.column + (int) Math.cos(this.angle);
-    // }
+    public int nextColumn() {
+        return this.column + (int) Math.cos(this.angle);
+    }
     
 }

@@ -14,25 +14,18 @@ public class MatrixGraph {
 
     private final int rows;
     private final int columns;
-    public static final int layers = 3;
 
-    private Node[][][] nodes;
-
-    private List<Position> freePositions = new ArrayList<>();
+    private Node[][] nodes;
 
     public MatrixGraph(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
-        nodes = new Node[rows][columns][layers];
+        nodes = new Node[rows][columns];
     }
     
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    public void insert(Node node, int layer) {
-        nodes[node.row()][node.column()][layer] = node;
-    }
-
-    public void remove(Node node, int layer) {
-        nodes[node.row()][node.column()][layer] = null;
+    public void insert(Node node) {
+        nodes[node.row()][node.column()] = node;
     }
     
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -45,20 +38,24 @@ public class MatrixGraph {
 
     private void surroundRow(int row) {
         for (int column = 0; column < columns; column++) {
-            insert(new BorderNode(row, column), 0);
+            BorderNode bn = new BorderNode(row, column);
+            bn.number = column;
+            insert(bn);
         }
     }
 
     private void surroundColumn(int column) {
         for (int row = 1; row < rows-1; row++) {
-            insert(new BorderNode(row, column), 0);
+            BorderNode bn = new BorderNode(row, column);
+            bn.number = row;
+            insert(bn);
         }
     }
 
     public void fillInside() {
         for (int row = 1; row < rows-1; row++) {
             for (int column = 1; column < columns-1; column++) {
-                insert(new FloorNode(row, column), 0);
+                insert(new FloorNode(row, column));
             }
         }
     }
@@ -73,24 +70,16 @@ public class MatrixGraph {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    public Node nodeAt(int row, int column, int layer) {
-        return nodes[row][column][layer];
+    public Node nodeAt(int row, int column) {
+        return nodes[row][column];
     }
-
-    // public void shake() {
-    //     for (int row = 1; row < rows - 1; row++) {
-    //         for (int column = 1; column < columns - 1; column++) {
-    //             insert(nodeAt(row, column, 0).move(), 0);
-    //         }
-    //     }
-    // }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     private Position getRandomFreePosition() {
-        freePositions.clear();
+        List<Position> freePositions = new ArrayList<>();
         for (int row = 1; row < rows -1 ; row++) {
             for (int column = 1; column < columns - 1; column++) {
-                if (nodeAt(row, column, 1) == null && nodeAt(row, column, 2) == null)
+                if (nodeAt(row, column) instanceof FloorNode)
                     freePositions.add(new Position(row, column));
             }
         }
@@ -100,15 +89,21 @@ public class MatrixGraph {
 
     public void put(Food food) {
         food.moveTo(getRandomFreePosition());
-        insert(food, 1);
+        insert(food);
     }
 
     public void put(Snake snake) {
-        snake.head().moveTo(rows/2, columns/2);
-        insert(snake.head(), 2);
-        snake.body().get(0).moveTo(snake.head().row()+1, snake.head().column());
-        insert(snake.body().get(0), 2);
-        snake.body().get(0).pointTo(snake.head());
+        int centerRow = rows/2;
+        int centerColumn = columns/2;
+        snake.head().moveTo(centerRow, centerColumn);
+        insert(snake.head());
+        snake.body().get(0).moveTo(centerRow+1, centerColumn);
+        insert(snake.body().get(0));
+    }
+
+    public void move(Node node) {
+        insert(new FloorNode(node.row(), node.column()));
+        node.move();
     }
 
 }

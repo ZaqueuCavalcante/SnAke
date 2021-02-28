@@ -20,6 +20,8 @@ public class Snake {
         head.pointToUp();
         body = new ArrayList<>();
         body.add(new BodyNode());
+        body.get(0).pointToUp();
+        this.live();
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -50,13 +52,14 @@ public class Snake {
     public void eat(Food food) {
         score += food.nutritionalValue();
         for (int i = 0; i < food.nutritionalValue(); i++) {
-            addBodyNode();
+            this.addBodyNode();
         }
     }
 
     public void getHurt(Obstacle obstacle) {
         score -= obstacle.damageValue();
-        if (score < 0) dead = true;
+        if (score < 0)
+            this.die();
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -70,39 +73,8 @@ public class Snake {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
     void addBodyNode() {
-        int index = body.size()-1;
-        body.add(new BodyNode(body.get(index).row(), body.get(index).column()));
+        BodyNode lastNode = body.get(body.size()-1);
+        body.add(new BodyNode(lastNode.row(), lastNode.column()));
     }
-
-    // public void updateDirections() {
-    //     Node pivo = head;
-    //     for (BodyNode bn : body) {
-    //         bn.pointTo(pivo);
-    //         pivo = bn;
-    //     }
-    // }
-
-    // public void moveHeadTo(int row, int column) {
-    //     head.moveTo(row, column);
-    //     body.add(new BodyNode(row + 1, column));
-    // }
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-    
-    // public boolean selfCollide(MatrixGraph matrixGraph) {
-    //     return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof BodyNode;
-    // }
-
-    // public boolean wallCollide(MatrixGraph matrixGraph) {
-    //     return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof BorderNode;
-    // }
-
-    // public boolean obstacleCollide(MatrixGraph matrixGraph) {
-    //     return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof Obstacle;
-    // }
-
-    // public boolean portalCollide(MatrixGraph matrixGraph) {
-    //     return matrixGraph.nodeAt(nextRow(), nextColumn()) instanceof Portal;
-    // }
 
 }
