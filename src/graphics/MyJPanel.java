@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import actors.foods.Apple;
 import actors.foods.Food;
 import actors.nodes.BorderNode;
+import actors.nodes.FloorNode;
 import actors.nodes.Node;
 import actors.snakes.BodyNode;
 import actors.snakes.Head;
@@ -37,8 +38,6 @@ public class MyJPanel extends JPanel implements ActionListener {
 
     Apple apple = new Apple();
     Snake snake = new Snake();
-
-    boolean skip;
 
     public MyJPanel() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -134,12 +133,11 @@ public class MyJPanel extends JPanel implements ActionListener {
                 case KeyEvent.VK_SPACE:
                     Head head = snake.head();
                     
-                    skip = false;
                     if (graph.nodeAt(head.nextRow(), head.nextColumn()) instanceof Food) {
                         snake.eat(apple);
-                        graph.put(apple);
+                        graph.insert(snake.body().get(snake.body().size()-1));
+                        graph.put(apple); 
                         System.err.println("Food Collide");
-                        skip = true;
                     }
 
                     if (graph.nodeAt(head.nextRow(), head.nextColumn()) instanceof BorderNode) {
@@ -154,33 +152,34 @@ public class MyJPanel extends JPanel implements ActionListener {
                         System.err.println("Self Collide");
                     }
                         
+                    int x = snake.head().row();
+                    int y = snake.head().column();
+                    graph.move(snake.head());
+                    BodyNode lastNode = snake.body().get(snake.body().size()-1);
+                    graph.insert(new FloorNode(lastNode.row(), lastNode.column()));
+                    lastNode.moveTo(x, y);
 
-                    Node frontNode = snake.head();
-                    Node backNode = snake.body().get(0);
+                    graph.insert(lastNode);
 
-                    backNode.pointTo(frontNode);
-                    graph.move(frontNode);
-                    graph.insert(frontNode);
-                    graph.move(backNode);
-                    graph.insert(backNode);
-                    backNode.pointTo(frontNode);
+                    lastNode.pointTo(snake.head());
 
-                    frontNode = backNode;
+                    BodyNode first = snake.body().get(0);
+                    snake.body().set(0, lastNode);
+                    snake.body().set(snake.body().size()-1, first);
+ 
+                    // Node frontNode = snake.head();
+                    // Node backNode;
 
-                    if (snake.body().size() > 1 && !skip) {
-                        for (int i = 1; i < snake.body().size(); i++) {
-                            backNode = snake.body().get(i);
+                    // for (int i = 0; i < snake.body().size(); i++) {
+                    //     backNode = snake.body().get(i);
+                    //     backNode.pointTo(frontNode);
+                    //     graph.move(frontNode);
+                    //     graph.move(backNode);
+                    //     backNode.pointTo(frontNode);
+    
+                    //     frontNode = snake.body().get(i);
+                    // }
 
-                            backNode.pointTo(frontNode);
-                            graph.move(frontNode);
-                            graph.insert(frontNode);
-                            graph.move(backNode);
-                            graph.insert(backNode);
-                            backNode.pointTo(frontNode);
-
-                            frontNode = backNode;
-                        }
-                    }
                     break;
 
                 default:

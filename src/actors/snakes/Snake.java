@@ -21,6 +21,10 @@ public class Snake {
         body = new ArrayList<>();
         body.add(new BodyNode());
         body.get(0).pointToUp();
+
+        body.add(new BodyNode());
+        body.get(1).pointToUp();
+        
         this.live();
     }
 

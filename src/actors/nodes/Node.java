@@ -44,17 +44,17 @@ public class Node {
     }
 
     public void pointTo(Node otherNode) {  // Mover pra Body Node?
-        if (isNotNeighbor(otherNode)) {
-            throw new IllegalArgumentException("The nodes are not neighbors.");
-        }
+        // if (isNotNeighbor(otherNode)) {
+        //     throw new IllegalArgumentException("The nodes are not neighbors.");
+        // }
         if (otherNode.row() == this.row) {
-            if (otherNode.column() == this.column + 1)
+            if (otherNode.column() > this.column)
                 pointToRight();
             else
                 pointToLeft();
         }
         else {
-            if (otherNode.row() == this.row + 1)
+            if (otherNode.row() > this.row)
                 pointToDown();
             else
                 pointToUp();

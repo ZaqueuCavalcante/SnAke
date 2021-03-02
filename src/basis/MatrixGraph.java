@@ -99,11 +99,15 @@ public class MatrixGraph {
         insert(snake.head());
         snake.body().get(0).moveTo(centerRow+1, centerColumn);
         insert(snake.body().get(0));
+
+        snake.body().get(1).moveTo(centerRow+2, centerColumn);
+        insert(snake.body().get(1));
     }
 
     public void move(Node node) {
         insert(new FloorNode(node.row(), node.column()));
         node.move();
+        insert(node);
     }
 
 }
