@@ -102,6 +102,9 @@ public class MatrixGraph {
 
         snake.body().get(1).moveTo(centerRow+2, centerColumn);
         insert(snake.body().get(1));
+
+        snake.body().get(2).moveTo(centerRow+3, centerColumn);
+        insert(snake.body().get(2));
     }
 
     public void move(Node node) {

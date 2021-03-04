@@ -10,6 +10,7 @@ public class Snake {
 
     private Head head;
     private List<BodyNode> body;
+    public int lastNodeIndex;
 
     private int score;
 
@@ -24,6 +25,11 @@ public class Snake {
 
         body.add(new BodyNode());
         body.get(1).pointToUp();
+
+        body.add(new BodyNode());
+        body.get(2).pointToUp();
+
+        lastNodeIndex = 2;
         
         this.live();
     }

@@ -133,52 +133,55 @@ public class MyJPanel extends JPanel implements ActionListener {
                 case KeyEvent.VK_SPACE:
                     Head head = snake.head();
                     
-                    if (graph.nodeAt(head.nextRow(), head.nextColumn()) instanceof Food) {
-                        snake.eat(apple);
-                        graph.insert(snake.body().get(snake.body().size()-1));
-                        graph.put(apple); 
-                        System.err.println("Food Collide");
-                    }
-
+                    
                     if (graph.nodeAt(head.nextRow(), head.nextColumn()) instanceof BorderNode) {
                         snake.die();
                         timer.stop();
                         System.err.println("Border Collide");
                     }
-
+                    
                     if (graph.nodeAt(head.nextRow(), head.nextColumn()) instanceof BodyNode) {
                         snake.die();
                         timer.stop();
                         System.err.println("Self Collide");
                     }
+                    
+                    if (graph.nodeAt(head.nextRow(), head.nextColumn()) instanceof Food) {
+                        snake.eat(apple);
+
+                        int x = snake.head().row();
+                        int y = snake.head().column();
+
+                        graph.move(snake.head());
+                        BodyNode lastNode = snake.body().get(snake.body().size()-1);
+                        lastNode.moveTo(x, y);
+
+                        graph.insert(lastNode);
+
+                        lastNode.pointTo(snake.head());
+
                         
-                    int x = snake.head().row();
-                    int y = snake.head().column();
-                    graph.move(snake.head());
-                    BodyNode lastNode = snake.body().get(snake.body().size()-1);
-                    graph.insert(new FloorNode(lastNode.row(), lastNode.column()));
-                    lastNode.moveTo(x, y);
 
-                    graph.insert(lastNode);
+                        graph.put(apple); 
+                        System.err.println("Food Collide");
+                    } else {
+                        int x = snake.head().row();
+                        int y = snake.head().column();
 
-                    lastNode.pointTo(snake.head());
+                        graph.move(snake.head());
+                        BodyNode lastNode = snake.body().get(snake.lastNodeIndex);
+                        graph.insert(new FloorNode(lastNode.row(), lastNode.column()));
+                        lastNode.moveTo(x, y);
 
-                    BodyNode first = snake.body().get(0);
-                    snake.body().set(0, lastNode);
-                    snake.body().set(snake.body().size()-1, first);
- 
-                    // Node frontNode = snake.head();
-                    // Node backNode;
+                        graph.insert(lastNode);
 
-                    // for (int i = 0; i < snake.body().size(); i++) {
-                    //     backNode = snake.body().get(i);
-                    //     backNode.pointTo(frontNode);
-                    //     graph.move(frontNode);
-                    //     graph.move(backNode);
-                    //     backNode.pointTo(frontNode);
-    
-                    //     frontNode = snake.body().get(i);
-                    // }
+                        lastNode.pointTo(snake.head());
+
+                        snake.lastNodeIndex --;
+
+                        if (snake.lastNodeIndex < 0)
+                            snake.lastNodeIndex = snake.body().size() -1;
+                    }
 
                     break;
 
