@@ -153,13 +153,40 @@ public class MyJPanel extends JPanel implements ActionListener {
                         int y = snake.head().column();
 
                         graph.move(snake.head());
+
+                        int index = snake.lastNodeIndex + 1;
+
+                        BodyNode bn = snake.body().get(index);
+                        int row = bn.row();
+                        int column = bn.column();
+                        bn.moveTo(x, y);
+                        graph.insert(bn);
+                        bn.pointTo(snake.head());
+                        x = row; 
+                        y = column;
+                        index ++;
+
+                        while (index <= snake.body().size()-2) {
+                            bn = snake.body().get(index);
+                            row = bn.row();
+                            column = bn.column();
+                            bn.moveTo(x, y);
+                            graph.insert(bn);
+                            bn.pointTo(snake.body().get(index-1));
+                            x = row; 
+                            y = column;
+                            index ++;
+                        }
+                        
+                        
                         BodyNode lastNode = snake.body().get(snake.body().size()-1);
-                        lastNode.moveTo(x, y);
+                        if (bn != lastNode) {
+                            lastNode.moveTo(x, y);
 
-                        graph.insert(lastNode);
+                            graph.insert(lastNode);
 
-                        lastNode.pointTo(snake.head());
-
+                            lastNode.pointTo(snake.body().get(index-1));
+                        }
                         
 
                         graph.put(apple); 
