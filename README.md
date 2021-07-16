@@ -79,5 +79,4 @@ Buscando a maneira mais otimizada possível de zerar o Snake Game.
 - Programação Paralela;
 
 ## Referências
-- []()
-
+- [P5.ts Template](https://github.com/Gaweph/p5-typescript-starter)
