@@ -1,18 +1,14 @@
 # SnA*ke
 
-Snake game with pathfinding algorithms.
+Buscando a maneira mais otimizada possível de zerar o Snake Game.
 
-## Class Diagram
-
-![Class Diagram](/SnAke.png "Class Diagram")
-
-**Pensando sobre o problema**:
-- Ter em mente que a cada movimento que a cobra faz, o grafo se modifica;
+## Pensando sobre o problema:
+- A cada movimento que a cobra realiza, o grafo que representa o jogo se modifica;
 - Logo, `as melhores opções mudam a cada movimento`;
 - Assim, tomar sempre as melhores opções no momento podem levar a um game over no futuro?
 - E o que parece um game-over agora, uma situação sem saída, pode ser contornada mais a frente?
 
-**Ideias de solução**:
+## Ideias de solução:
 - Usar um algoritmo de Pathfinding pra achar o caminho mais curto da cabeça da cobra até a comida:
     - BFS, DFS, Dijkstra's, A*...
 - Após isso, achar o menor caminho que conecte a comida ao rabo da cobra;
@@ -21,18 +17,7 @@ Snake game with pathfinding algorithms.
 - É interessante notar que a cobra pode atualizar o caminho a cada movimento, pois o grafo pode se arranjar de forma a favorecer um ciclo menor;
 - Caso um ciclo não seja `menor` que o anterior, continuar seguindo o antigo mesmo;
 
-**Design do game**:
-- Fazer o jogo ser independente do que/de quem vai jogá-lo:
-    - No domínio do jogo, não importa se é um humano, algoritmo de pathfinding ou rede neural que vai controlar a cobra;
-    - As regras de negócio devem estar separadas de todo o resto;
-    - Expor apenas **interfaces** para controle da cobra e métodos para acessar dados do jogo, sem modificá-los;
-- Usar a biblioteca gráfica como uma camada burra do sistema:
-    - Ela sabe apenas receber objetos e os mostrar na tela, nada além disso;
-    - Não deve haver nenhuma regra de como o jogo funciona nela;
-- Abordagem de **Ports and Adapters**:
-    - Fazer os módulos de alto nível do jogo dependerem de abstrações, não de implementações;
-    - Usar herança, interfaces e polimorfismo para poder plugar e desplugar facilmente um módulo/recurso do outro;
-    - Nesse sentido, seria possível iniciar o jogo com um humano jogando e fazer um switch para que um algoritmo passasse a controlar a cobra, em tempo de execução;
+## Design do game:
 - A entidade base de todo o jogo é o Node:
     - Ele possui alguns atributos fundamentais, como:
         - Posição (x, y);
@@ -45,13 +30,12 @@ Snake game with pathfinding algorithms.
 - Alternativamente, poderíamos criar um único grafo e fazer cenário, cobra, comida, obstáculo e portal armazenarem apenas referências (ponteiros) para os nós do grafo;
 
 ## Fluxo de Execução
+    1 - Posicionar todos os nós
+    2 - Atualizar vetores velocidade
+    3 - Mover geral
+    ![X-Men](images/x-men.gif)
 
-1 - Posicionar todos os nós
-2 - Atualizar vetores velocidade
-    - GIF dessa cena: https://www.youtube.com/watch?v=SrPCh9qbNr0
-3 - Mover geral
-
-**Adição de features**:
+Adição de features:
 - Fazer uma cobra competir com outra pela mesma comida, num mesmo jogo;
 - Colocar obstáculos dentro do cenário, formando uma espécie de labirinto;
 - Fazer a comida 'fugir' da cobra. Ela poderia se mover aleatoriamente ou ser controlada por um player humano ou um algoritmo;
@@ -70,9 +54,9 @@ Snake game with pathfinding algorithms.
 - Comidas com diferentes 'valores nutricionais':
     - O corpo da cobra cresceria mais ou menos, dependendo do tipo de comida;
 - Comidas bônus por tempo limitado, com 'valores nutricionais' mais altos:
-    - A cobra deveria ser capaz de dar **prioridade** e ir atrás da comida de maior xp;
+    - A cobra deveria ser capaz de dar prioridade e ir atrás da comida de maior xp;
 
-**Conteúdos a serem abordados**:
+Conteúdos a serem abordados:
 - Princípios de Design Orientado a Objetos;
 - Modelagem de Software;
 - SOLID;
@@ -83,6 +67,6 @@ Snake game with pathfinding algorithms.
 - Estruturas de Dados;
 - Programação Paralela;
 
-**Tópicos avulsos**:
+Tópicos avulsos:
 - Fazer análises estatísticas detalhadas para cada configuração de cenário e métodos de solução?
 - Implementação e documentação em inglês também!
